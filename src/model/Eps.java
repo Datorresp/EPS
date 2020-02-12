@@ -17,16 +17,46 @@ import java.util.ArrayList;
  */
 public class Eps {
     
-    private ArrayList <Ticket> ticket;
+    private ArrayList <Ticket> tickets;
     private ArrayList <User> users;
+    private Ticket actuals;
+    
 
     public Eps() {
         
-        ticket = new ArrayList<>();
+        tickets = new ArrayList<>();
         users = new ArrayList<>();
+        Ticket t = new Ticket('A', 00, null);
+        t.setAtteended(true);
+        tickets.add(t);
+        actual();
     }
     
-    public void addUser(User u)throws AlreadyExists{
+    public ArrayList<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(ArrayList<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
+    }
+    
+    public Ticket getActuals() {
+		return actuals;
+	}
+
+	public void setActuals(Ticket actuals) {
+		this.actuals = actuals;
+	}
+
+	public void addUser(User u)throws AlreadyExists{
         
         boolean added = false;
         
@@ -41,6 +71,9 @@ public class Eps {
                 users.add(u);
                 added = true;
             }
+        }if (users.size() == 0) {
+            
+            users.add(u);
         }
     }
     
@@ -48,19 +81,19 @@ public class Eps {
         
         boolean encontrado = false;
         User u = null;
+        
         for (int i = 0; i < users.size() && !encontrado; i++) {
-            
+		
             if (users.get(i).getNumberOfDocument().equalsIgnoreCase(id)) {
-                
+
                 u = users.get(i);
                 encontrado =true;
                 
-            }else if (users.get(i++) == null) {
+            }else if (i == users.size()-1 &&users.get(i++) == null) {
                 
-                throw new NullPointerException("El numero de documento: " + id + " Por favor crear el usuario para darle un turno.");
+                //throw new NullPointerException("El numero de documento: " + id + " Por favor crear el usuario para darle un turno.");
             }
-            
-        }
+		}
         
         return u;
     }
@@ -100,6 +133,95 @@ public class Eps {
                 }
             }
         }
-    }    
+    }
     
+    public String numberOfTheTicket(){
+        
+        char letterT = tickets.get(tickets.size()-1).getLetter();
+        int number = tickets.get(tickets.size()-1).getNumber();
+        String complete = tickets.get(tickets.size()-1).getComplete();
+        
+        if(tickets.get(0) != null){
+        	
+            if(!complete.equalsIgnoreCase("Z99")){
+            	
+                if (tickets.get(tickets.size()-1).getNumber() == 99) {
+                	
+                    letterT = (char) (letterT+1);
+                    
+                    number = 00;
+                    complete = letterT + ""+ number + "";
+                }else{
+                	
+                    number = number+1;
+                    
+                    complete = letterT +""+ number + "";
+
+                }
+            }else{
+
+                letterT = 'A';
+                number = 00;
+                complete = letterT + ""+ number + "";
+            }
+        }else{
+            
+            letterT = 'A';
+            number = 00;
+            complete = letterT + number + "";
+        }    
+        
+        
+        return complete;
+    }
+    
+    public void addTicket(String id){
+        
+        if(tickets.get(0).getUser() == null){
+            
+        	
+            User u = findById(id);
+            tickets.get(0).setUser(u);
+
+        }else{
+            
+            User u = findById(id);
+            String num = numberOfTheTicket();
+            String num1;
+            if(num.charAt(1) == 0) {
+            	 num1 = num.charAt(1) +num.charAt(2)+"";
+            }else {
+            	num1 = num.charAt(1) + "";
+            }
+            Ticket t = new Ticket(num.charAt(0), Integer.parseInt(num1), u);
+            tickets.add(t);
+        }
+        
+    }
+    
+    public void actual(){
+        
+        boolean attended = false;
+        
+        for (int i = 0; i < tickets.size() && !attended; i++) {
+
+            if(tickets.get(i) != null){
+                
+                if (!tickets.get(i).isAtteended()) {
+                	System.out.println("No ha sido atendido");
+                    attended = true;
+                    actuals = tickets.get(i);
+                }
+            }else{
+                
+                throw  new NullPointerException("No hay registros de tickets, por favor cree uno");
+            }   
+        }
+    }
+    
+    public void attend(){
+        
+        
+        actual();
+    }
 }

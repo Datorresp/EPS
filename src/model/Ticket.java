@@ -15,13 +15,14 @@ public class Ticket {
     private char letter;
     private String complete;
     private int number;
+    private boolean atteended;
     private User user;
 
-    public Ticket(char letter, String complete, int number, User user) {
+    public Ticket(char letter, int number, User user) {
         this.letter = letter;
-        this.complete = complete;
         this.number = number;
         this.user = user;
+        atteended = false;
     }
 
     public char getLetter() {
@@ -56,7 +57,20 @@ public class Ticket {
         this.user = user;
     }
 
+    public boolean isAtteended() {
+        return atteended;
+    }
+
+    public void setAtteended(boolean atteended) {
+        this.atteended = atteended;
+    }
     
+    
+
+    public void completeTicket(){
+        
+        complete = letter + number + "";
+    }
     
     
     
