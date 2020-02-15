@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import exception.AlreadyExists;
-import exception.DoesntExist;
-import exception.missingImportantInformation;
+import exception1.AlreadyExists;
+import exception1.DoesntExist;
+import exception1.missingImportantInformation;
 import model.Eps;
 import model.Ticket;
 import model.User;
