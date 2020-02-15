@@ -1,15 +1,19 @@
+package model;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import exception1.AlreadyExists;
+import exception1.DoesntExist;
+import exception1.missingImportantInformation;
 
 /**
  *
@@ -56,7 +60,7 @@ public class Eps {
 		this.actuals = actuals;
 	}
 
-	public void addUser(User u)throws AlreadyExists{
+	public void addUser(User u)throws AlreadyExists, missingImportantInformation{
         
         boolean added = false;
         
@@ -64,20 +68,34 @@ public class Eps {
             
             if (users.get(i).getNumberOfDocument().equalsIgnoreCase(u.getNumberOfDocument())) {
                 
-                throw  new AlreadyExists();
+                throw  new AlreadyExists(users.get(i).getName(), users.get(i).getNumberOfDocument());
                 
             }else{
                 
-                users.add(u);
-                added = true;
+                if(u.getName() == null || u.getLastName() == null || u.getNumberOfDocument()== null || u.getTypeOfDocument()== null){
+                    
+                    throw new missingImportantInformation();
+                    
+                }else{
+                    
+                    users.add(u);
+                    added = true;
+                }
             }
         }if (users.size() == 0) {
             
-            users.add(u);
+            if(u.getName() == null || u.getLastName() == null || u.getNumberOfDocument()== null || u.getTypeOfDocument()== null){
+
+                throw new missingImportantInformation();
+
+            }else{
+
+                users.add(u);
+            }
         }
     }
     
-    public User findById(String id) throws NullPointerException{
+    public User findById(String id) throws DoesntExist{
         
         boolean encontrado = false;
         User u = null;
@@ -91,7 +109,7 @@ public class Eps {
                 
             }else if (i == users.size()-1 &&users.get(i++) == null) {
                 
-                //throw new NullPointerException("El numero de documento: " + id + " Por favor crear el usuario para darle un turno.");
+                throw new DoesntExist(id);
             }
 		}
         
@@ -175,7 +193,7 @@ public class Eps {
         return complete;
     }
     
-    public void addTicket(String id){
+    public void addTicket(String id) throws DoesntExist{
         
         if(tickets.get(0).getUser() == null){
             

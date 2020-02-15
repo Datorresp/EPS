@@ -11,7 +11,9 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.AlreadyExists;
+import exception1.AlreadyExists;
+import exception1.DoesntExist;
+import exception1.missingImportantInformation;
 import model.Eps;
 import model.User;
 
@@ -50,8 +52,14 @@ public class Controller {
             eps.addUser(u);
         } catch (AlreadyExists ex) {
             
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
+            System.out.println("TRY AGAIN" + '\n');
+//            reader.nextLine();
             Menu();
+        } catch (missingImportantInformation ex) {
+            
+            System.out.println("TRY AGAIN");
+            reader.nextLine();
         }
     }
     
@@ -59,7 +67,11 @@ public class Controller {
         
         System.out.println("Say the document number: " + '\n');
         String nod = reader.nextLine();
-        eps.addTicket(nod);
+        try {
+            eps.addTicket(nod);
+        } catch (DoesntExist ex) {
+            
+        }
     }
     
     public void attend(){

@@ -1,5 +1,7 @@
 
-package model;
+package exception1;
+
+import model.*;
 
 
 public class AlreadyAssociatedUser extends Exception {

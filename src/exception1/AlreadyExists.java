@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package exception1;
+
+import model.*;
 
 /**
  *
@@ -11,12 +13,6 @@ package model;
  */
 public class AlreadyExists extends Exception {
 
-    /**
-     * Creates a new instance of <code>AlreadyExists</code> without detail
-     * message.
-     */
-    public AlreadyExists() {
-    }
 
     /**
      * Constructs an instance of <code>AlreadyExists</code> with the specified
@@ -24,7 +20,7 @@ public class AlreadyExists extends Exception {
      *
      * @param msg the detail message.
      */
-    public AlreadyExists(String msg) {
-        super(msg);
+    public AlreadyExists(String name, String id) {
+        super("THE USER: " + name + " WITH ID: " + id + " IS ALREADY CREATED IN THE BASA DATA.");
     }
 }
