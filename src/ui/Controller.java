@@ -71,6 +71,7 @@ public class Controller {
             eps.addTicket(nod);
         } catch (DoesntExist ex) {
             
+            System.out.println(ex.getMessage());
         }
     }
     
@@ -111,7 +112,7 @@ public class Controller {
 
                 case 3:
 
-                    //addHability();
+                    attendTurn();
 
                     break;
 
@@ -121,6 +122,11 @@ public class Controller {
                     salir = true;
             }
         }
+    }
+    
+    public void attendTurn(){
+        
+        eps.attend();
     }
     
     public int gameMenu(){
