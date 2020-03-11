@@ -18,13 +18,16 @@ public class Ticket {
     private int number;
     private boolean atteended;
     private User user;
+    private TicketType tp;
 
-    public Ticket(char letter, int number, User user) {
+    public Ticket(char letter, int number, TicketType tp, User user) {
         this.letter = letter;
         this.number = number;
         this.user = user;
+        this.tp = tp;
         completeTicket();       
         atteended = false;
+
     }
 
     public char getLetter() {
@@ -66,8 +69,14 @@ public class Ticket {
     public void setAtteended(boolean atteended) {
         this.atteended = atteended;
     }
-    
-    
+
+    public TicketType getTp() {
+        return tp;
+    }
+
+    public void setTp(TicketType tp) {
+        this.tp = tp;
+    }
 
     public String completeTicket(){
         

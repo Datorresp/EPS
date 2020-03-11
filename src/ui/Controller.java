@@ -16,6 +16,7 @@ import exception1.DoesntExist;
 import exception1.missingImportantInformation;
 import model.Eps;
 import model.User;
+import model.Dates;
 
 /**
  *
@@ -29,6 +30,8 @@ public class Controller {
     public Controller() {
         eps = new Eps();
         reader = new Scanner(System.in);
+        
+        
     }
     
     public void addUser(){
@@ -67,12 +70,14 @@ public class Controller {
         
         System.out.println("Say the document number: " + '\n');
         String nod = reader.nextLine();
-        try {
-            eps.addTicket(nod);
-        } catch (DoesntExist ex) {
+        
+        
+        //try {
+           // eps.addTicket(nod);
+        //} //catch (DoesçntExist ex) {
             
-            System.out.println(ex.getMessage());
-        }
+           // System.out.println(ex.getMessage());
+       // }
     }
     
     public void attend(){
@@ -90,8 +95,10 @@ public class Controller {
     
     public void drivingGame() {
 
+        Dates d = new Dates();
+        
         boolean salir = false;
-
+        
         while (!salir) {
 
             int userInput = gameMenu();
@@ -116,7 +123,10 @@ public class Controller {
 
                     break;
 
-
+                case 4:
+                    
+                    d.date();
+                    break;
                 default:
 
                     salir = true;

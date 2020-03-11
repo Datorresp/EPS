@@ -30,7 +30,7 @@ public class Eps {
         
         tickets = new ArrayList<>();
         users = new ArrayList<>();
-        Ticket t = new Ticket('A', 00, null);
+        Ticket t = new Ticket('A', 00, null, null);
         t.setAtteended(true);
         tickets.add(t);
         actual();
@@ -193,7 +193,7 @@ public class Eps {
         return complete;
     }
     
-    public void addTicket(String id) throws DoesntExist{
+    public void addTicket(String id, TicketType tp) throws DoesntExist{
         
         if(tickets.get(0).getUser() == null){
             
@@ -211,7 +211,7 @@ public class Eps {
             }else {
             	num1 = num.charAt(1) + "";
             }
-            Ticket t = new Ticket(num.charAt(0), Integer.parseInt(num1), u);
+            Ticket t = new Ticket(num.charAt(0), Integer.parseInt(num1), tp, u);
             tickets.add(t);
         }
         
