@@ -14,9 +14,14 @@ import java.util.logging.Logger;
 import exception1.AlreadyExists;
 import exception1.DoesntExist;
 import exception1.missingImportantInformation;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import model.Eps;
 import model.User;
 import model.Dates;
+import model.TicketType;
 
 /**
  *
@@ -71,13 +76,21 @@ public class Controller {
         System.out.println("Say the document number: " + '\n');
         String nod = reader.nextLine();
         
+        System.out.println("Say the type of the ticket: " + '\n');
+        String tot = reader.nextLine();    
         
-        //try {
-           // eps.addTicket(nod);
-        //} //catch (DoesçntExist ex) {
+        System.out.println("Say the time: " + '\n');
+        Float t = reader.nextFloat();
+        reader.nextLine();  
+        
+        TicketType tt = new TicketType(tot, t);
+        try {
+            eps.addTicket(nod, tt);
+        } catch (DoesntExist ex) {
             
-           // System.out.println(ex.getMessage());
-       // }
+            System.out.println(ex.getMessage());
+        }
+        
     }
     
     public void attend(){
@@ -93,7 +106,7 @@ public class Controller {
  
     }
     
-    public void drivingGame() {
+    public void drivingGame() throws InterruptedException {
 
         Dates d = new Dates();
         
@@ -141,6 +154,8 @@ public class Controller {
     
     public int gameMenu(){
     
+        Dates d = new Dates();
+        d.date();
         System.out.println("1. Añadir Usuario" + '\n');
         System.out.println("2. Crear turno" + '\n');
         System.out.println("3. Atender Turno" + '\n');

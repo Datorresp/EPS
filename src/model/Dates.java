@@ -13,16 +13,30 @@ public class Dates {
     String mesf;
     Calendar fecha = Calendar.getInstance(Locale.getDefault());
     public Dates() {
-        
+        fecha = new GregorianCalendar();
         dia = fecha.get(Calendar.DAY_OF_MONTH);
         mes = fecha.get(Calendar.MONTH);
         año = fecha.get(Calendar.YEAR);
-        minuto = fecha.get(Calendar.MINUTE);
-        segundo = fecha.get(Calendar.SECOND);
-        hora = fecha.get(Calendar.HOUR);
+        this.minuto = setMinuto();
+        this.segundo = setSegundo();
+        this.hora = setHora();
         fechaf();
         
     }
+
+    public int setMinuto() {
+        return fecha.get(Calendar.MINUTE);
+    }
+
+    public int setSegundo() {
+        return fecha.get(Calendar.SECOND);
+    }
+
+    public int setHora() {
+        return fecha.get(Calendar.HOUR);
+    }
+    
+    
     
     private void fechaf(){
         
@@ -66,16 +80,22 @@ public class Dates {
     }
     
     
+    private void refresh(){
+        
+        fecha = new GregorianCalendar();
+        this.minuto = setMinuto();
+        this.segundo = setSegundo();
+        this.hora = setHora();
+    }
     public  void date(){
         
+        refresh();
         System.out.println(mesf + "/" + dia + "/" + año);
         System.out.println(hora + ":" + minuto + ":" + segundo);
+        System.out.println();
 
         
     }
 
-
-    
-    
-    
+ 
 }
