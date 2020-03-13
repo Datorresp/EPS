@@ -100,23 +100,56 @@ public class Ticket implements Serializable{
     
     public TicketType search(TicketType t){
         
-        TicketType tt = null;
-        boolean found = false;
-        
-        for (int i = 0; i < types.size() && !found; i++) {
+        boolean encotre = false;
+        int fin = types.size()-1;
+        int inicio = 0;
+        int pos = 0;
+        while (inicio <= fin && !encotre) {
             
-            if (types.get(i).compareTo(t) == 0) {
+            int medio = (inicio + fin)/2;
+            if (types.get(medio).compareTo(t)==0) {
                 
-                tt = types.get(i);
-                found = true;
+                encotre = true;
+                pos = medio;
+            }else if (types.get(medio).compareTo(t)>0) {
+                
+                fin = medio + 1;
+            }else{
+                
+                inicio = medio + 1;
             }
         }
         
-        return tt;
+        return types.get(pos);
     }
     
-    public void order(){
+    public void sortByTypeBurbuja(){
         
+        for (int i = types.size(); i > 0; i--) {
+            
+            for (int j = 0; j < i-1; j++) {
+                
+                if (types.get(j).compareTo(types.get(j+1))>0) {
+                    
+                    TicketType tmp = types.get(j);
+                    types.set(j, types.get(j+1));
+                    types.set(j+1, tmp);
+                    
+                }
+            }
+        }
+    }
+    
+    public void sortTimeInsercion(){
         
+        for (int i = 1; i < types.size(); i++) {
+            
+            for (int j = i; j > 0 && types.get(j-1).compareToTime(types.get(j)) > 0 ; j--) {
+                
+                TicketType temp = types.get(j);
+                types.set(j, types.get(j+1));
+                types.set(j+1, temp);
+            }
+        }
     }
 }

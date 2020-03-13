@@ -37,5 +37,10 @@ import java.io.Serializable;
         return this.type.compareToIgnoreCase(o.getType());
     }
     
+    public float compareToTime(TicketType o){
+        
+        return(this.time - o.getTime());
+    }
+    
     
 }
