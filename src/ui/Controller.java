@@ -9,10 +9,9 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import exception1.AlreadyExists;
 import exception1.DoesntExist;
+import exception1.PersistenciaError;
 import exception1.missingImportantInformation;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -33,7 +32,14 @@ public class Controller {
     private Scanner reader;
 
     public Controller() {
-        eps = new Eps();
+        try {
+            
+            eps = new Eps("/Users/diegoa.torres/NetBeansProjects/Eps/data/DATA1","/Users/diegoa.torres/NetBeansProjects/Eps/data/DATA2  ");
+            
+        } catch (PersistenciaError ex) {
+            
+            System.out.println(ex.getLocalizedMessage());
+        }
         reader = new Scanner(System.in);
         
         
@@ -62,8 +68,7 @@ public class Controller {
             
             System.out.println(ex.getMessage());
             System.out.println("TRY AGAIN" + '\n');
-//            reader.nextLine();
-            Menu();
+
         } catch (missingImportantInformation ex) {
             
             System.out.println("TRY AGAIN");
@@ -106,7 +111,7 @@ public class Controller {
  
     }
     
-    public void drivingGame() throws InterruptedException {
+    public void drivingGame(){
 
         Dates d = new Dates();
         
@@ -139,6 +144,13 @@ public class Controller {
                 case 4:
                     
                     d.date();
+                    
+                    break;
+                    
+                case 5:
+                    
+                    eps.save();
+                    
                     break;
                 default:
 
@@ -159,6 +171,9 @@ public class Controller {
         System.out.println("1. Añadir Usuario" + '\n');
         System.out.println("2. Crear turno" + '\n');
         System.out.println("3. Atender Turno" + '\n');
+        System.out.println("4. dar Hora" + '\n');
+        System.out.println("5. Guardar sistema" + '\n');
+        
 
         int valor = reader.nextInt();
 

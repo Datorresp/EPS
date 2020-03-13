@@ -5,6 +5,7 @@ package model;
  * and open the template in the editor.
  */
 
+import exception1.PersistenciaError;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -30,16 +31,37 @@ public class Eps implements Serializable{
     private ArrayList <Ticket> tickets;
     private ArrayList <User> users;
     private Ticket actuals;
+    private  String archivoCom;
+    private  String archivoper;
     
-
-    public Eps() {
+    public Eps(String archivo, String archivo1) throws PersistenciaError{        
+        archivoCom = archivo;
+        File ar = new File(archivoCom);
         
         tickets = new ArrayList<>();
-        users = new ArrayList<>();
         Ticket t = new Ticket('A', 00, null, null);
-        t.setAtteended(true);
         tickets.add(t);
-        actual();
+        users = new ArrayList<>();
+        if (archivo != null) {            
+            try {               
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ar));
+                tickets = (ArrayList)ois.readObject();
+                ois.close();
+            } catch (Exception e) {                
+                throw new PersistenciaError("impossible to restore program state" + e.getMessage());
+            }
+        }       
+        archivoper = archivo1;
+        File arc = new File(archivoper);        
+        if (archivo != null) {            
+            try {               
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(arc));
+                users = (ArrayList)ois.readObject();
+                ois.close();
+            } catch (Exception e) {                
+                throw new PersistenciaError("impossible to restore program state" + e.getMessage());
+            }
+        }
     }
     
     public ArrayList<Ticket> getTickets() {
@@ -77,19 +99,7 @@ public class Eps implements Serializable{
                 }else{                    
                     users.add(u);
                     added = true;
-                    try{
-                        String rutaFichero = null;
-                        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rutaFichero));
-                        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaFichero));
-                        oos.writeObject(u);
-                        oos.close();
-                        User readClient = (User) ois.readObject();
-                        ois.close();
-                    }catch (IOException ex) {
-                        System.out.println(ex.getMessage());
-                    }catch (ClassNotFoundException ex) {
-                        System.out.println(ex.getMessage());
-                    }
+                    System.out.println(u);
                 }
             }
         }if (users.size() == 0) {            
@@ -97,19 +107,8 @@ public class Eps implements Serializable{
                 throw new missingImportantInformation();
             }else{
                 users.add(u);
-                try{
-                    String rutaFichero = null;
-                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rutaFichero));
-                    ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaFichero));
-                    oos.writeObject(u);
-                    oos.close();
-                    User readClient = (User) ois.readObject();
-                    ois.close();
-                }catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }catch (ClassNotFoundException ex) {
-                    System.out.println(ex.getMessage());
-                }                            
+                System.out.println(u);
+                          
             }
         }
     }
@@ -333,6 +332,47 @@ public class Eps implements Serializable{
                 
                 throw  new NullPointerException("No hay registros de tickets, por favor cree uno");
             }   
+        }
+    }
+    
+    public void save (){
+        
+        try {
+            
+            saveProgram();
+            saveUsers();
+            
+        } catch (PersistenciaError e) {
+            
+            System.out.println("No Se puede salvar, intentar de nuevo");
+        }
+
+    }
+    
+    public void saveProgram() throws PersistenciaError{
+        
+        try {
+            
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivoCom));
+            oos.writeObject(tickets);
+            oos.close();
+            
+        } catch (IOException e) {
+            
+            throw new PersistenciaError("NO SE PUDO SALVAR");
+        }
+    }
+    
+    public void saveUsers() throws PersistenciaError{
+        
+        try {
+            
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivoper));
+            oos.writeObject(users);
+            oos.close();
+        } catch (IOException e) {
+            
+            throw new PersistenciaError("NO SE PUDO SALVAR");
         }
     }
     

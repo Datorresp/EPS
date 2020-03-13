@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,6 +23,7 @@ public class Ticket implements Serializable{
     private boolean atteended;
     private User user;
     private TicketType tp;
+    private ArrayList<TicketType> types; 
 
     public Ticket(char letter, int number, TicketType tp, User user) {
         this.letter = letter;
@@ -30,6 +32,7 @@ public class Ticket implements Serializable{
         this.tp = tp;
         completeTicket();       
         atteended = false;
+        types = new ArrayList<>();
 
     }
 
@@ -86,4 +89,34 @@ public class Ticket implements Serializable{
         return complete = letter + ""+number + "";
     }
     
+    public void addTypes(TicketType tt){     
+        types.add(tt);
+    }
+    
+    public void addType(String t){
+        
+        TicketType tt = null;
+    }
+    
+    public TicketType search(TicketType t){
+        
+        TicketType tt = null;
+        boolean found = false;
+        
+        for (int i = 0; i < types.size() && !found; i++) {
+            
+            if (types.get(i).compareTo(t) == 0) {
+                
+                tt = types.get(i);
+                found = true;
+            }
+        }
+        
+        return tt;
+    }
+    
+    public void order(){
+        
+        
+    }
 }
