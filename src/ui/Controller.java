@@ -11,12 +11,16 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import exception1.AlreadyExists;
 import exception1.DoesntExist;
+import exception1.NoUsers;
 import exception1.PersistenciaError;
 import exception1.missingImportantInformation;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Eps;
 import model.User;
 import model.Dates;
@@ -34,7 +38,7 @@ public class Controller {
     public Controller() {
         try {
             
-            eps = new Eps("/Users/diegoa.torres/NetBeansProjects/Eps/data/DATA1","/Users/diegoa.torres/NetBeansProjects/Eps/data/DATA2  ");
+            eps = new Eps("/Users/diegoa.torres/NetBeansProjects/Eps/data/DATAFINAL1","/Users/diegoa.torres/NetBeansProjects/Eps/data/DATAFINAL2");
             
         } catch (PersistenciaError ex) {
             
@@ -98,18 +102,47 @@ public class Controller {
         
     }
     
+    public void loadTextFileUsers(){
+        
+        System.out.println("Type the text file's path: " + '\n');
+        String csv = reader.nextLine();
+        
+        System.out.println("Type the separator: " + '\n');
+        String sep = reader.nextLine();    
+        try {
+            eps.loadTextFileUs(csv, sep);
+            
+        } catch (IOException ex) {
+            
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void loadTextFileTickets(){
+        
+        System.out.println("Type the text file's path: " + '\n');
+        String csv = reader.nextLine();
+        
+        System.out.println("Type the separator: " + '\n');
+        String sep = reader.nextLine(); 
+        try {
+            eps.loadTextFileTu(csv,sep);
+        } catch (IOException ex) {
+            
+            System.out.println(ex.getMessage());
+        } catch (NoUsers ex) {
+            
+            System.out.println(ex.getMessage());
+        }
+        
+    }
+    
     public void attend(){
         
         eps.attend();
     }
     
-    public void Menu(){
-        
-        System.out.println("1. Añadir Usuario" + '\n');
-        System.out.println("2. Crear turno" + '\n');
-        System.out.println("3. Atender Turno" + '\n');
- 
-    }
+    
     
     public void drivingGame(){
 
@@ -124,34 +157,47 @@ public class Controller {
             switch (userInput) {
 
                 case 1:
-
+                    
+                    long inicio = System.currentTimeMillis();
                     addUser();
-
+                    long fin = System.currentTimeMillis();
+                    double tiempo = (double) ((fin - inicio)/1000);
+                    System.out.println(tiempo +" segundos");
+                    
                     break;
 
                 case 2:
 
                     addTicket();
-
                     break;
 
                 case 3:
 
                     attendTurn();
-
                     break;
 
                 case 4:
                     
-                    d.date();
-                    
+                    d.date();                   
                     break;
                     
                 case 5:
                     
-                    eps.save();
-                    
+                    eps.save(); 
                     break;
+                    
+                case 6:
+                    
+                    loadTextFileUsers();
+                    break;
+                    
+                case 7:
+                    
+                    loadTextFileTickets();
+                    break;
+                    
+                    
+                    
                 default:
 
                     salir = true;
@@ -168,11 +214,13 @@ public class Controller {
     
         Dates d = new Dates();
         d.date();
-        System.out.println("1. Añadir Usuario" + '\n');
-        System.out.println("2. Crear turno" + '\n');
-        System.out.println("3. Atender Turno" + '\n');
-        System.out.println("4. dar Hora" + '\n');
-        System.out.println("5. Guardar sistema" + '\n');
+        System.out.println("1. Añadir Usuario");
+        System.out.println("2. Crear turno");
+        System.out.println("3. Atender Turno");
+        System.out.println("4. dar Hora");
+        System.out.println("5. Guardar sistema");
+        System.out.println("6. Generar aleatoreamente usuarios");
+        System.out.println("7. Generar aleatoreamente Tickets");
         
 
         int valor = reader.nextInt();

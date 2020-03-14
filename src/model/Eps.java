@@ -17,6 +17,7 @@ import exception1.DoesntExist;
 import exception1.NoUsers;
 import exception1.missingImportantInformation;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -134,10 +135,9 @@ public class Eps implements Serializable{
         return u;
     }
     
-    public void loadTextFileUs()throws IOException{
+    public void loadTextFileUs(String csv, String sep) throws FileNotFoundException, IOException{
 
-        String csv = "/Users/diegoa.torres/NetBeansProjects/LecturaDeArchivos/prueba.csv";
-        String sep = ",";
+
         User cl = null;
 
 
@@ -162,20 +162,7 @@ public class Eps implements Serializable{
                     String address = parts[3];
 
                     cl = new User(typeOfId, id, name, LastName, phone, address);
-                    users.add(cl);
-                    try{
-                        String rutaFichero = null;
-                        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rutaFichero));
-                        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaFichero));
-                        oos.writeObject(cl);
-                        oos.close();
-                        User readClient = (User) ois.readObject();
-                        ois.close();
-                    }catch (IOException ex) {
-                        System.out.println(ex.getMessage());
-                    }catch (ClassNotFoundException ex) {
-                        System.out.println(ex.getMessage());
-                    }                    
+                    users.add(cl);                  
                     line = br.readLine();
 
                 }
@@ -183,9 +170,8 @@ public class Eps implements Serializable{
         }
     }
     
-    public void loadTextFileTu()throws IOException, NoUsers{
-        String csv = "/Users/diegoa.torres/NetBeansProjects/LecturaDeArchivos/prueba.csv";
-        String sep = ",";
+    public void loadTextFileTu(String csv, String sep)throws IOException, NoUsers{
+
         if (csv != null) {
             File f = new File (csv);
             FileReader fr = new  FileReader(f);
@@ -211,19 +197,10 @@ public class Eps implements Serializable{
                         }
                         Ticket t = new Ticket(num.charAt(0), Integer.parseInt(num1), tt, u);
                         tickets.add(t);
-                        try{
-                            String rutaFichero = null;
-                            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rutaFichero));
-                            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaFichero));
-                            oos.writeObject(t);
-                            oos.close();
-                            User readClient = (User) ois.readObject();
-                            ois.close();
-                        }catch (IOException ex) {
-                            System.out.println(ex.getMessage());
-                        }catch (ClassNotFoundException ex) {
-                            System.out.println(ex.getMessage());
-                        }                        
+                        
+                    }else{
+                        
+                        throw new NoUsers(" NO SE HAN ENCONTRADO MAS USUARIOS PARA AGREGAR A LOS TURNOS");
                     }
                     line = br.readLine();
                     throw new NoUsers();
