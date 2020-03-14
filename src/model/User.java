@@ -12,7 +12,7 @@ import java.io.Serializable;
  *
  * @author diegoa.torres
  */
-public class User implements Serializable{
+public class User implements Serializable, Comparable<User>{
     
     public static final String ID_CARD = "IC";
     public static final String CITIZENSHIP_CARD = "CC";
@@ -75,6 +75,16 @@ public class User implements Serializable{
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "typeOfDocument=" + typeOfDocument + ", numberOfDocument=" + numberOfDocument + ", name=" + name + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + '}';
+    }
+
+    @Override
+    public int compareTo(User o) {
+        return name.compareToIgnoreCase(o.getName());
     }
     
     

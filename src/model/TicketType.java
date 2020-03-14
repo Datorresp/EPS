@@ -9,9 +9,9 @@ import java.io.Serializable;
  public class TicketType implements Serializable, Comparable<TicketType>{
 
     private String type;
-    private float time;
+    private int time;
 
-    public TicketType(String type, float time) {
+    public TicketType(String type, int time) {
         this.type = type;
         this.time =  time;
     }
@@ -24,11 +24,11 @@ import java.io.Serializable;
         this.type = type;
     }
 
-    public float getTime() {
+    public int getTime() {
         return time;
     }
 
-    public void setTime(float time) {
+    public void setTime(int time) {
         this.time = time;
     }
 
@@ -37,9 +37,14 @@ import java.io.Serializable;
         return this.type.compareToIgnoreCase(o.getType());
     }
     
-    public float compareToTime(TicketType o){
+    public int compareToTime(TicketType o){
         
-        return(this.time - o.getTime());
+        return this.time - o.getTime();
+    }
+
+    @Override
+    public String toString() {
+        return "TicketType{" + "type=" + type + ", time=" + time + '}';
     }
     
     

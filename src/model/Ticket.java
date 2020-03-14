@@ -95,10 +95,10 @@ public class Ticket implements Serializable{
     
     public void addType(String t){
         
-        TicketType tt = null;
+        tp = search(t);
     }
     
-    public TicketType search(TicketType t){
+    public TicketType search(String t){
         
         boolean encotre = false;
         int fin = types.size()-1;
@@ -107,11 +107,11 @@ public class Ticket implements Serializable{
         while (inicio <= fin && !encotre) {
             
             int medio = (inicio + fin)/2;
-            if (types.get(medio).compareTo(t)==0) {
+            if (types.get(medio).getType().compareTo(t)==0) {
                 
                 encotre = true;
                 pos = medio;
-            }else if (types.get(medio).compareTo(t)>0) {
+            }else if (types.get(medio).getType().compareTo(t)>0) {
                 
                 fin = medio + 1;
             }else{
@@ -129,7 +129,7 @@ public class Ticket implements Serializable{
             
             for (int j = 0; j < i-1; j++) {
                 
-                if (types.get(j).compareTo(types.get(j+1))>0) {
+                if (types.get(j).getType().compareTo(types.get(j+1).getType())>0) {
                     
                     TicketType tmp = types.get(j);
                     types.set(j, types.get(j+1));
@@ -144,7 +144,7 @@ public class Ticket implements Serializable{
         
         for (int i = 1; i < types.size(); i++) {
             
-            for (int j = i; j > 0 && types.get(j-1).compareToTime(types.get(j)) > 0 ; j--) {
+            for (int j = i; j > 0 && types.get(j-1).getTime()-types.get(j).getTime() > 0 ; j--) {
                 
                 TicketType temp = types.get(j);
                 types.set(j, types.get(j+1));
@@ -152,4 +152,22 @@ public class Ticket implements Serializable{
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "Ticket{" + "letter=" + letter + ", complete=" + complete + ", number=" + number + ", atteended=" + atteended + ", user=" + user + ", tp=" + tp + ", types=" + types + '}';
+    }
+    
+    public String ShowTypes(){
+        
+        String t = "";
+        
+        for (int i = 0; i < types.size(); i++) {
+            
+            t+=types.get(i).toString() + '\n';
+        }
+        
+        return t;
+    }
+     
 }

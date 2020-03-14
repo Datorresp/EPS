@@ -16,12 +16,16 @@ import exception1.AlreadyExists;
 import exception1.DoesntExist;
 import exception1.NoUsers;
 import exception1.missingImportantInformation;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  *
@@ -135,9 +139,10 @@ public class Eps implements Serializable{
         return u;
     }
     
-    public void loadTextFileUs(String csv, String sep) throws FileNotFoundException, IOException{
+    public void loadTextFileUs() throws FileNotFoundException, IOException{
 
-
+        String csv = "/Users/diegoa.torres/NetBeansProjects/Eps/data/Users.csv";
+        String sep = ",";
         User cl = null;
 
 
@@ -170,8 +175,10 @@ public class Eps implements Serializable{
         }
     }
     
-    public void loadTextFileTu(String csv, String sep)throws IOException, NoUsers{
+    public void loadTextFileTu()throws IOException, NoUsers{
 
+        String csv="/Users/diegoa.torres/NetBeansProjects/Eps/data/Tickets.csv";
+        String sep = ",";
         if (csv != null) {
             File f = new File (csv);
             FileReader fr = new  FileReader(f);
@@ -187,7 +194,7 @@ public class Eps implements Serializable{
                         String[] parts = line.split(sep);
                         String type = parts[0];
                         String time = parts[1];                    
-                        TicketType tt = new TicketType(type, Float.parseFloat(time));
+                        TicketType tt = new TicketType(type, Integer.parseInt(time));
                         String num = numberOfTheTicket();
                         String num1;
                         if(num.charAt(1) == 0) {
@@ -358,4 +365,68 @@ public class Eps implements Serializable{
         
         actual();
     }
+    
+        public String showUsers(){
+        
+        String info = "";
+        for (int i = 0; i < users.size(); i++) {
+            
+            info += users.get(i).toString() + '\n';
+        }
+        
+        return info;
+    }
+        
+    public void showUsersAdvance() throws IOException{
+        BufferedWriter bw = new BufferedWriter(new FileWriter("data/Reporte.txt"));
+        
+        for (int i = 0; i < users.size(); i++) {
+            
+            bw.write(users.get(i).toString() + '\n');
+            
+        }
+      
+        bw.close();
+    }
+    
+    public void showTickets(){
+        
+        for (int i = 0; i < tickets.size(); i++) {
+            
+            System.out.println(tickets.get(i).toString());
+        }
+    }
+    
+    public User BinarySearchUsers(String u){
+        Collections.sort(users);
+        
+        boolean encotre = false;
+        int fin = users.size()-1;
+        int inicio = 0;
+        int medio = 0;
+        while (inicio <= fin && !encotre) {
+            
+             medio = (inicio + fin)/2;
+            if (users.get(medio).getName().compareToIgnoreCase(u)==0) {
+                
+                encotre = true;
+                
+            }else if (users.get(medio).getName().compareToIgnoreCase(u)>0) {
+                
+                fin = medio + 1;
+            }else{
+                
+                inicio = medio + 1;
+            }
+        }
+        
+        return users.get(medio);
+        
+    }
+    
+    public void sortUsers(){
+        
+        Collections.sort(users);
+    }
+    
 }
